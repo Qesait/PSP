@@ -1,1 +1,0 @@
-This is repository for laboratory works for network application programming course.
