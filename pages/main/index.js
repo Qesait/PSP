@@ -1,5 +1,4 @@
-import {ProductCardComponent} from "../../components/product-card/index.js";
-import {ProductPage} from "../product/index.js";
+import {PictureButton} from "../../components/picture-button/index.js";
 
 export class MainPage {
     constructor(parent) {
@@ -20,43 +19,20 @@ export class MainPage {
         
     getData() {
         return [
-            {
-                id: 1,
-                src: "Тюлень.jpg",
-                title: "Акция",
-                text: "Такой акции вы еще не видели 1"
-            },
-            {
-                id: 2,
-                src: "Тюлень.jpg",
-                title: "Акция",
-                text: "Такой акции вы еще не видели 2"
-            },
-            {
-                id: 3,
-                src: "Тюлень.jpg",
-                title: "Акция",
-                text: "Такой акции вы еще не видели 3"
-            },
+            "../../pictures/1.jpg",
+            "../../pictures/2.jpg",
+            "../../pictures/3.jpg",
+            "../../pictures/4.jpg",
         ]
     }
-
-    clickCard(e) {
-        const cardId = e.target.dataset.id
-    
-        const productPage = new ProductPage(this.parent, cardId)
-        productPage.render()
-    }
         
-    render() {
+    render() {       
         this.parent.innerHTML = ''
         const html = this.getHTML()
         this.parent.insertAdjacentHTML('beforeend', html)
         
-        const data = this.getData()
-        data.forEach((item) => {
-            const productCard = new ProductCardComponent(this.pageRoot)
-            productCard.render(item, this.clickCard.bind(this))
-        })
+        const data = this.getData();
+        const pictureButton = new PictureButton(this.pageRoot);
+        pictureButton.render(data);
     }
 }
