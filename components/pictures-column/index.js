@@ -1,18 +1,18 @@
-import {PictureButton} from "../../components/picture-button/index.js";
+import {PictureButton} from "../picture-button/index.js";
 
-export class PicturesRow {
+export class PicturesColumn {
     constructor(parent) {
         this.parent = parent;
     }
 
     get pageRoot() {
-        return document.getElementById('pictures-row')
+        return document.getElementById('pictures-column')
     }
         
     getHTML() {
         return (
             `
-                <div id="pictures-row" class="btn-group" role="group"></div>
+                <div id="pictures-column" class="btn-group-vertical" role="group" style="max-width: 600px;"></div>
             `
         )
     }

@@ -1,4 +1,4 @@
-import {PicturesRow} from "../../components/pictures-row/index.js";
+import {PicturesColumn} from "../../components/pictures-column/index.js";
 import {PicturePage} from "../picture/index.js"
 
 export class MainPage {
@@ -36,6 +36,18 @@ export class MainPage {
                 id: 4,
                 source: "../../pictures/4.jpg"
             },
+            {
+                id: 5,
+                source: "../../pictures/5.jpg"
+            },
+            {
+                id: 6,
+                source: "../../pictures/6.jpg"
+            },
+            {
+                id: 7,
+                source: "../../pictures/7.jpg"
+            },
         ]
     }
 
@@ -52,7 +64,7 @@ export class MainPage {
         this.parent.insertAdjacentHTML('beforeend', html)
         
         const data = this.getData();
-        const picturesRow = new PicturesRow(this.pageRoot);
-        picturesRow.render(data, this.clickCard.bind(this));
+        const picturesColumn = new PicturesColumn(this.pageRoot);
+        picturesColumn.render(data, this.clickCard.bind(this));
     }
 }
