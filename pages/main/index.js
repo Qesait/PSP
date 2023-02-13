@@ -1,4 +1,5 @@
 import {PicturesRow} from "../../components/pictures-row/index.js";
+import {PicturePage} from "../picture/index.js"
 
 export class MainPage {
     constructor(parent) {
@@ -19,11 +20,30 @@ export class MainPage {
         
     getData() {
         return [
-            "../../pictures/1.jpg",
-            "../../pictures/2.jpg",
-            "../../pictures/3.jpg",
-            "../../pictures/4.jpg",
+            {
+                id: 1,
+                source: "../../pictures/1.jpg"
+            },
+            {
+                id: 2,
+                source: "../../pictures/2.jpg"
+            },
+            {
+                id: 3,
+                source: "../../pictures/3.jpg"
+            },
+            {
+                id: 4,
+                source: "../../pictures/4.jpg"
+            },
         ]
+    }
+
+    clickCard(e) {
+        const source = e.target.dataset.source
+    
+        const picturePage = new PicturePage(this.parent, source)
+        picturePage.render()
     }
         
     render() {       
@@ -33,6 +53,6 @@ export class MainPage {
         
         const data = this.getData();
         const picturesRow = new PicturesRow(this.pageRoot);
-        picturesRow.render(data);
+        picturesRow.render(data, this.clickCard.bind(this));
     }
 }

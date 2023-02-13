@@ -3,16 +3,23 @@ export class PictureButton {
         this.parent = parent;
     }
 
-    getHTML(source) {
+    getHTML(item) {
         return (
-            `<button type="button">
-                <img style="height: 300px;" src="${source}" alt="картинка">
+            `<button type="button" id="picture-button-${item.id}" data-source="${item.source}">
+                <img style="height: 300px;" src="${item.source}" alt="картинка">
             </button>`
         )
     }
 
-    render(source) {
-        const html = this.getHTML(source);
+    addListeners(item, listener) {
+        document
+            .getElementById(`picture-button-${item.id}`)
+            .addEventListener("click", listener)
+    }
+
+    render(item, listener) {
+        const html = this.getHTML(item);
         this.parent.insertAdjacentHTML('beforeend', html);
+        this.addListeners(item, listener)
     }
 }
