@@ -5,11 +5,9 @@ export class PicturePage {
     }
 
     getHTML() {
-        // <img src="${this.source}" alt="картинка"></img>
         return(
             `
-                
-                <img src="../../pictures/4.jpg" alt="картинка">
+                <img src="${this.source}" class="img-fluid" alt="картинка">
             `
         )
     }

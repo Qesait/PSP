@@ -5,8 +5,8 @@ export class PictureButton {
 
     getHTML(item) {
         return (
-            `<button type="button" id="picture-button-${item.id}" data-source="${item.source}">
-                <img style="height: 300px;" src="${item.source}" alt="картинка">
+            `<button type="button" id="picture-button-${item.id}">
+                <img style="height: 300px;" src="${item.source}" data-source="${item.source}" alt="картинка">
             </button>`
         )
     }
