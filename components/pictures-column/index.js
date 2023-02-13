@@ -6,13 +6,15 @@ export class PicturesColumn {
     }
 
     get pageRoot() {
-        return document.getElementById('pictures-column')
+        return document.getElementById(`pictures-column-${this.id}`)
     }
         
     getHTML() {
+        const columns = document.getElementsByClassName('btn-group-vertical')
+        this.id = (columns.length) ? +columns.item(columns.length - 1).dataset.id + 1 : 1
         return (
             `
-                <div id="pictures-column" class="btn-group-vertical" role="group" style="max-width: 600px;"></div>
+                <div id="pictures-column-${this.id}" data-id="${this.id}" class="btn-group-vertical" role="group"></div>
             `
         )
     }
