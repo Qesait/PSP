@@ -3,20 +3,16 @@ export class PictureButton {
         this.parent = parent;
     }
 
-    getHTML(data) {
-        let html = '<div class="btn-group" role="group">';
-        data.forEach((item) => {
-            html += `<button type="button"><img style="height: 300px;" src="${item}" alt="картинка"></button>`;
-        });
-        // data.forEach((item) => {
-        //     html += `<button type="button">Левая</button>`;
-        // });
-        html += '</div>';
-        return html;
+    getHTML(source) {
+        return (
+            `<button type="button">
+                <img style="height: 300px;" src="${source}" alt="картинка">
+            </button>`
+        )
     }
 
-    render(data) {
-        const html = this.getHTML(data);
+    render(source) {
+        const html = this.getHTML(source);
         this.parent.insertAdjacentHTML('beforeend', html);
     }
 }

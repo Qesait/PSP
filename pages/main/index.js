@@ -1,4 +1,4 @@
-import {PictureButton} from "../../components/picture-button/index.js";
+import {PicturesRow} from "../../components/pictures-row/index.js";
 
 export class MainPage {
     constructor(parent) {
@@ -32,7 +32,7 @@ export class MainPage {
         this.parent.insertAdjacentHTML('beforeend', html)
         
         const data = this.getData();
-        const pictureButton = new PictureButton(this.pageRoot);
-        pictureButton.render(data);
+        const picturesRow = new PicturesRow(this.pageRoot);
+        picturesRow.render(data);
     }
 }
