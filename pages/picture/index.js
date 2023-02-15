@@ -8,8 +8,10 @@ export class PicturePage {
     }
 
     clickBack() {
-        const mainPage = new MainPage(this.parent)
-        mainPage.render()
+        if (confirm("Вы точно хотите закрыть картинку?")) {
+            const mainPage = new MainPage(this.parent)
+            mainPage.render()
+        }
     }
 
     render() {
