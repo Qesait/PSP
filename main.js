@@ -5,8 +5,8 @@
 
 
 function sortWordsAndLetters(str) {
-    return str.split(' ')
-      .map(word => word.split('').map(chr => chr.toLowerCase()).sort().join(''))
+    return str.toLowerCase().split(' ')
+      .map(word => word.split('').sort().join(''))
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .sort()
       .join(' ');
