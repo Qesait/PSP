@@ -1,5 +1,8 @@
 import {ProductCardComponent} from "../../components/product-card/index.js";
 import {ProductPage} from "../product/index.js";
+import {ajax} from "../../modules/ajax.js";
+import {urls} from "../../modules/urls.js";
+import {groupId} from "../../modules/consts.js";
 
 export class MainPage {
     constructor(parent) {
@@ -19,26 +22,16 @@ export class MainPage {
     }
         
     getData() {
-        return [
-            {
-                id: 1,
-                src: "Тюлень.jpg",
-                title: "Акция",
-                text: "Такой акции вы еще не видели 1"
-            },
-            {
-                id: 2,
-                src: "Тюлень.jpg",
-                title: "Акция",
-                text: "Такой акции вы еще не видели 2"
-            },
-            {
-                id: 3,
-                src: "Тюлень.jpg",
-                title: "Акция",
-                text: "Такой акции вы еще не видели 3"
-            },
-        ]
+        ajax.post(urls.getGroupMembers(groupId), (data) => {
+            this.renderData(data.response.items)
+        })
+    }
+
+    renderData(items) {
+        items.forEach((item) => {
+            const productCard = new ProductCardComponent(this.pageRoot)
+            productCard.render(item, this.clickCard.bind(this))
+        })
     }
 
     clickCard(e) {
@@ -52,11 +45,7 @@ export class MainPage {
         this.parent.innerHTML = ''
         const html = this.getHTML()
         this.parent.insertAdjacentHTML('beforeend', html)
-        
-        const data = this.getData()
-        data.forEach((item) => {
-            const productCard = new ProductCardComponent(this.pageRoot)
-            productCard.render(item, this.clickCard.bind(this))
-        })
+
+        this.getData()
     }
 }
