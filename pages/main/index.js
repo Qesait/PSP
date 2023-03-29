@@ -2,7 +2,6 @@ import {ProductCardComponent} from "../../components/product-card/index.js";
 import {ProductPage} from "../product/index.js";
 import {ajax} from "../../modules/ajax.js";
 import {urls} from "../../modules/urls.js";
-import {groupId} from "../../modules/consts.js";
 
 export class MainPage {
     constructor(parent) {
@@ -12,26 +11,45 @@ export class MainPage {
     get pageRoot() {
         return document.getElementById('main-page')
     }
+
+    get pageMenu() {
+        return document.getElementById('menu')
+    }
         
     getHTML() {
         return (
             `
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown button
+                    </button>
+                    <div id="menu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    </div>
+                <div/>
                 <div id="main-page" class="d-flex flex-wrap"><div/>
             `
         )
     }
 
-    getMembers(data) {
-        let chats = data.filter(el => el.conversation.peer.type=="chat").map(el => el.conversation.peer.id);
+    getMembers(item) {
+        let chats = item.filter(el => el.conversation.peer.type=="chat").map(el => el.conversation.peer.id);
         console.log(chats)
         ajax.post(urls.getChatMembers(chats[0]), (data) => {
             console.log(data.response.profiles)
             this.renderData(data.response.profiles)
         })
     }
+
+    rederMenu(items) {
+        let chats = items.filter(el => el.conversation.peer.type=="chat").map(el => el.conversation.peer.id);
+        chats.forEach((item) => {
+            this.pageMenu.insertAdjacentHTML('beforeend', `<a class="dropdown-item">${item}</a>`)
+        })
+    }
         
     getData() {
         ajax.post(urls.getChats(), (data) => {
+            this.rederMenu(data.response.items)
             this.getMembers(data.response.items)
         })
     }
