@@ -12,49 +12,46 @@ export class MainPage {
         return document.getElementById('main-page')
     }
 
-    get pageMenu() {
-        return document.getElementById('menu')
+    get pageSelect() {
+        return document.getElementById('chat-select')
     }
         
     getHTML() {
         return (
             `
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dropdown button
-                    </button>
-                    <div id="menu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    </div>
-                <div/>
+                <select id=chat-select class="form-select" aria-label="Default select example"></select>
                 <div id="main-page" class="d-flex flex-wrap"><div/>
             `
         )
     }
 
-    getMembers(item) {
-        let chats = item.filter(el => el.conversation.peer.type=="chat").map(el => el.conversation.peer.id);
-        console.log(chats)
-        ajax.post(urls.getChatMembers(chats[0]), (data) => {
-            console.log(data.response.profiles)
-            this.renderData(data.response.profiles)
-        })
-    }
-
-    rederMenu(items) {
-        let chats = items.filter(el => el.conversation.peer.type=="chat").map(el => el.conversation.peer.id);
-        chats.forEach((item) => {
-            this.pageMenu.insertAdjacentHTML('beforeend', `<a class="dropdown-item">${item}</a>`)
-        })
-    }
-        
     getData() {
         ajax.post(urls.getChats(), (data) => {
-            this.rederMenu(data.response.items)
-            this.getMembers(data.response.items)
+            this.rederSelect(data.response.items)
+        })
+    }
+    
+    rederSelect(items) {
+        let chats = items.filter(el => el.conversation.peer.type=="chat").map(el => el.conversation.peer.id);
+        let select = this.pageSelect;
+        chats.forEach((item) => {
+            select.insertAdjacentHTML('beforeend', `<option value="${item}">${item}</option >`)
+        })
+        this.pageSelect.value = this.pageSelect.querySelector("option:first-child").value;
+        this.pageSelect.dispatchEvent(new Event("change"));
+    }
+
+    getMembers(item) {
+        ajax.post(urls.getChatMembers(item), (data) => {
+            this.renderMembers(data.response.profiles)
         })
     }
 
-    renderData(items) {
+    renderMembers(items) {
+        this.pageRoot.innerHTML = ''
+        if (items === undefined) {
+            return
+        }
         items.forEach((item) => {
             const productCard = new ProductCardComponent(this.pageRoot)
             productCard.render(item, this.clickCard.bind(this))
@@ -72,7 +69,10 @@ export class MainPage {
         this.parent.innerHTML = ''
         const html = this.getHTML()
         this.parent.insertAdjacentHTML('beforeend', html)
-
+        this.pageSelect.addEventListener("change", (event) => {
+            this.getMembers(event.target.value)
+        })
+        
         this.getData()
     }
 }
