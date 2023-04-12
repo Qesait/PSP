@@ -15,12 +15,18 @@ export class MainPage {
     get pageSelect() {
         return document.getElementById('chat-select')
     }
+
+    get pageMembers() {
+        return document.getElementById('members')
+    }
         
     getHTML() {
         return (
             `
-                <select id=chat-select class="form-select" aria-label="Default select example"></select>
-                <div id="main-page" class="d-flex flex-wrap"><div/>
+                <div id="main-page" class="d-flex flex-wrap">
+                    <select id="chat-select" class="form-select" aria-label="Default select example"></select>
+                    <div id="members" class="d-flex flex-wrap"></div>
+                <div/>
             `
         )
     }
@@ -52,12 +58,13 @@ export class MainPage {
     }
 
     renderMembers(items) {
-        this.pageRoot.innerHTML = ''
+        this.pageMembers.innerHTML = ''
         if (items === undefined) {
             return
         }
+        items = items.filter(member => member.city !== undefined && member.city.title === 'Москва');
         items.forEach((item) => {
-            const productCard = new ProductCardComponent(this.pageRoot)
+            const productCard = new ProductCardComponent(this.pageMembers)
             productCard.render(item, this.clickCard.bind(this))
         })
     }

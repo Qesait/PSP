@@ -15,7 +15,7 @@ class Urls {
     }
 
     getChatMembers(peerId) {
-        return `${this.url}/messages.getConversationMembers?peer_id=${peerId}&fields=photo_400_orig&${this.commonInfo}`
+        return `${this.url}/messages.getConversationMembers?peer_id=${peerId}&fields=photo_400_orig,city&${this.commonInfo}`
     }
 
     getChats() {
