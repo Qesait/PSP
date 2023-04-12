@@ -38,8 +38,11 @@ export class MainPage {
         chats.forEach((item) => {
             select.insertAdjacentHTML('beforeend', `<option value="${item.id}">${item.name}</option >`)
         })
-        this.pageSelect.value = this.pageSelect.querySelector("option:first-child").value;
-        this.pageSelect.dispatchEvent(new Event("change"));
+        const child = select.querySelector("option:last-child")
+        if (child !== undefined) {
+            select.value = child.value;
+            select.dispatchEvent(new Event("change"));
+        }
     }
 
     getMembers(item) {
@@ -77,52 +80,3 @@ export class MainPage {
         this.getData()
     }
 }
-
-// [
-//     {
-//         "id": 263432142,
-//         "photo_400_orig": "https://sun1-89.userapi.com/s/v1/ig2/OGv9_6c--VElzLiXxvFNrMMaY_0ZXetIIP1_lmFGBz_II427PrbOfFv0HOupz6d4wIvwT1UdoyRfPlRwImOmaP79.jpg?size=400x400&quality=96&crop=168,0,1505,1505&ava=1",
-//         "first_name": "Влад",
-//         "last_name": "Кузнецов",
-//         "can_access_closed": true,
-//         "is_closed": false
-//     },
-//     {
-//         "id": 664711983,
-//         "photo_400_orig": "https://sun1-88.userapi.com/s/v1/ig2/LKtfmMKDKC88WkipUGsDkfsQQTJiUtl36IAD5nquex7lq3vbY2aPIrptMJ0fO1Go3wuC0F21CmPnKLv9S5p7-aOg.jpg?size=225x225&quality=96&crop=0,0,225,225&ava=1",
-//         "first_name": "Manga",
-//         "last_name": "Fan",
-//         "can_access_closed": true,
-//         "is_closed": false
-//     }
-// ]
-
-
-// [
-//     {
-//         "conversation": {
-//             "peer": {
-//                 "id": 664711983,
-//                 "type": "user",
-//                 "local_id": 664711983
-//             },
-//             "last_message_id": 3,
-//         },
-//         "last_message": {
-//             "date": 1680095130,
-//         }
-//     },
-//     {
-//         "conversation": {
-//             "peer": {
-//                 "id": 2000000001,
-//                 "type": "chat",
-//                 "local_id": 1
-//             },
-//             "last_message_id": 2
-//         },
-//         "last_message": {
-//             "date": 1680093864,
-//         }
-//     }
-// ]
