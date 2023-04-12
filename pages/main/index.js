@@ -32,10 +32,11 @@ export class MainPage {
     }
     
     rederSelect(items) {
-        let chats = items.filter(el => el.conversation.peer.type=="chat").map(el => el.conversation.peer.id);
+        const chats = items.filter(el => el.conversation.peer.type=="chat")
+                            .map(el => ({id: el.conversation.peer.id, name: el.conversation.chat_settings.title}));
         let select = this.pageSelect;
         chats.forEach((item) => {
-            select.insertAdjacentHTML('beforeend', `<option value="${item}">${item}</option >`)
+            select.insertAdjacentHTML('beforeend', `<option value="${item.id}">${item.name}</option >`)
         })
         this.pageSelect.value = this.pageSelect.querySelector("option:first-child").value;
         this.pageSelect.dispatchEvent(new Event("change"));
