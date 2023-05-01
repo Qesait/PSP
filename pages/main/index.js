@@ -1,6 +1,5 @@
 import {ProductCardComponent} from "../../components/product-card/index.js";
 import {ProductPage} from "../product/index.js";
-import {ajax} from "../../modules/ajax.js";
 import {urls} from "../../modules/urls.js";
 
 export class MainPage {
@@ -31,10 +30,15 @@ export class MainPage {
         )
     }
 
-    getData() {
-        ajax.post(urls.getChats(), (data) => {
-            this.rederSelect(data.response.items)
-        })
+    async getChatsData() {
+        try {
+            const chats = await fetch(urls.getChats())
+                                .then(response => response.json())
+                                .then(data => data.response.items);
+            this.rederSelect(chats)
+        } catch (e) {
+            console.log(e)
+        }
     }
     
     rederSelect(items) {
@@ -51,10 +55,15 @@ export class MainPage {
         }
     }
 
-    getMembers(item) {
-        ajax.post(urls.getChatMembers(item), (data) => {
-            this.renderMembers(data.response.profiles)
-        })
+    async getMembers(item) {
+        try {
+            const profiles = await fetch(urls.getChatMembers(item))
+                                   .then(response => response.json())
+                                   .then(data => data.response.profiles);          
+            this.renderMembers(profiles)  
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     renderMembers(items) {
@@ -62,7 +71,7 @@ export class MainPage {
         if (items === undefined) {
             return
         }
-        items = items.filter(member => member.city !== undefined && member.city.title === 'Москва');
+        // items = items.filter(member => member.city !== undefined && member.city.title === 'Москва');
         items.forEach((item) => {
             const productCard = new ProductCardComponent(this.pageMembers)
             productCard.render(item, this.clickCard.bind(this))
@@ -84,6 +93,6 @@ export class MainPage {
             this.getMembers(event.target.value)
         })
         
-        this.getData()
+        this.getChatsData()
     }
 }

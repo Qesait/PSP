@@ -1,7 +1,6 @@
 import {ProductComponent} from "../../components/product/index.js";
 import {BackButtonComponent} from "../../components/back-button/index.js";
 import {MainPage} from "../main/index.js";
-import {ajax} from "../../modules/ajax.js";
 import {urls} from "../../modules/urls.js";
 
 export class ProductPage {
@@ -10,14 +9,21 @@ export class ProductPage {
         this.id = id
     }
 
-    getData() {
-        ajax.post(urls.getUserInfo(this.id), (data) => {
-            this.renderData(data.response)
-        })
+    async renderUser() {
+        try {
+            const users = await fetch(urls.getUserInfo(this.id))
+                                .then(response => response.json())
+                                .then(data => data.response);
+            const product = new ProductComponent(this.pageRoot)
+            product.render(users[0])
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     renderData(item) {
         const product = new ProductComponent(this.pageRoot)
+        console.log(item[0])
         product.render(item[0])
     }
 
@@ -43,7 +49,7 @@ export class ProductPage {
         const html = this.getHTML()
         this.parent.insertAdjacentHTML('beforeend', html)
         
-        this.getData()
+        this.renderUser();
         
         const backButton = new BackButtonComponent(this.pageRoot)
         backButton.render(this.clickBack.bind(this))
